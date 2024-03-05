@@ -1,6 +1,5 @@
 <template>
   <div class="home">
- Home
  <div class="splash-container">
         <div class="splash">
           <h1>Splendid Food</h1>
@@ -60,17 +59,10 @@
 </template>
 
 <script>
-import food from '../food.json'
+
 export default {
   name: 'Home',
-  data () {
-    return {
-      inventory: food
-    }
-  },
-  components: {
-
-  }
+  props: ['inventory']
 }
 
 </script>

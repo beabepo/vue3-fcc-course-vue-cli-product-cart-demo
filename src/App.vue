@@ -1,25 +1,65 @@
 <template>
-    <header class="top-bar spread">
-        <nav class="top-bar-nav">
-          <router-link to="/" class="top-bar-link">
-            <i class="icofont-spoon-and-fork"></i>
-            <span>Home</span>
-          </router-link>
-          <router-link to="/products" class="top-bar-link">
-            <span>Products</span>
-          </router-link>
-          <router-link to="/past-orders" class="top-bar-link">
-            <span>Past Orders</span>
-          </router-link>
-        </nav>
-        <!-- <router-link @click="toggleSidebar" class="top-bar-cart-link">
+  <header class="top-bar spread">
+    <nav class="top-bar-nav">
+      <router-link to="/" class="top-bar-link">
+        <i class="icofont-spoon-and-fork"></i>
+        <span>Home</span>
+      </router-link>
+      <router-link to="/products" class="top-bar-link">
+        <span>Products</span>
+      </router-link>
+      <router-link to="/past-orders" class="top-bar-link">
+        <span>Past Orders</span>
+      </router-link>
+    </nav>
+    <div @click="toggleSidebar" class="top-bar-cart-link">
           <i class="icofont-cart-alt icofont-1x"></i>
           <span>Cart ({{ totalQuantity }})</span>
-        </router-link> -->
-      </header>
-  <router-view/>
+    </div>
+  </header>
+  <router-view  :inventory="inventory"/>
+
+  <Sidebar v-if="showSidebar" :toggle="toggleSidebar" :cart="cart" :inventory="inventory" :remove="removeItem" />
 </template>
 
-<style>
+<script>
+import Sidebar from '@/components/Sidebar.vue'
+import food from '@/food.json'
 
-</style>
+export default {
+  components: {
+    Sidebar
+  },
+  data () {
+    return {
+      showSidebar: false,
+      inventory: food,
+      cart: {}
+    }
+  },
+  computed: {
+    totalQuantity () {
+      return Object.values(this.cart).reduce((accumulator, current) => {
+        return accumulator + current
+      }, 0)
+    }
+  },
+  methods: {
+    addToCart (name, index) {
+      //  receive type and number of items
+      if (!this.cart[name]) this.cart[name] = 0
+      // if no items in teh cart ^
+      this.cart[name] += this.inventory[index].quantity
+      // console.log(this.cart)
+      this.inventory[index].quantity = 0
+      // ^ when x quantity items added to cart sucesfully, card shoudl show 0 again
+    },
+    toggleSidebar () {
+      this.showSidebar = !this.showSidebar
+    },
+    removeItem (name) {
+      delete this.cart[name]
+    }
+  }
+}
+</script>
