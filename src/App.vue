@@ -17,7 +17,8 @@
           <span>Cart ({{ totalQuantity }})</span>
     </div>
   </header>
-  <router-view  :inventory="inventory" :addToCart="addToCart"/>
+  <router-view  :inventory="inventory" :addToCart="addToCart"
+  />
 
   <Sidebar v-if="showSidebar" :toggle="toggleSidebar" :cart="cart" :inventory="inventory" :remove="removeItem" />
 </template>
@@ -45,14 +46,9 @@ export default {
     }
   },
   methods: {
-    addToCart (name, index) {
-      //  receive type and number of items
+    addToCart (name, quantity) {
       if (!this.cart[name]) this.cart[name] = 0
-      // if no items in teh cart ^
-      this.cart[name] += this.inventory[index].quantity
-      // console.log(this.cart)
-      this.inventory[index].quantity = 0
-      // ^ when x quantity items added to cart sucesfully, card shoudl show 0 again
+      this.cart[name] += quantity
     },
     toggleSidebar () {
       this.showSidebar = !this.showSidebar

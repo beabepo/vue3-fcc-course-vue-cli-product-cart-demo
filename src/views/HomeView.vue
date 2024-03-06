@@ -11,10 +11,13 @@
         <h2>Recommended</h2>
 
         <div class="recommended">
-        <ProductCart v-for="(product, index) in inventory.slicke(0,3)"
+        <ProductCart
+        v-for="(product, index) in inventory.slice(0,3)"
           :key="product.id"
           class="card"
           :index="index"
+          :product="product"
+          :addToCart="addToCart"
          />
 
         </div>

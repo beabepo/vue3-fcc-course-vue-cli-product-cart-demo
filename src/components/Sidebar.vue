@@ -60,7 +60,7 @@ export default {
     },
     calculateTotal () { // key, value
       const total = Object.entries(this.cart).reduce((accumulate, current) => {
-        return accumulate + (current[1] + this.getPrice(current[0]))
+        return accumulate + (current[1] * this.getPrice(current[0]))
       }, 0)
       return total.toFixed(2)
     }
